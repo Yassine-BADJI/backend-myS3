@@ -17,7 +17,6 @@ app.use(passport.initialize());
 
 createConnection().then(async connection => {
     app.use('/api', api)
-    console.log("Server listening on port 3000 !");
 
     // console.log("Inserting a new user into the database...");
     // const user = new User();
@@ -35,6 +34,8 @@ createConnection().then(async connection => {
     // app.get("/", (req: Request, res: Response) => {
     //     res.send("my S3")
     // })
-    app.listen(3000);
+    app.listen(process.env.api_port);
+
+    console.log("Server listening on port " + process.env.api_port + "!");
 
 }).catch(error => console.log(error));
