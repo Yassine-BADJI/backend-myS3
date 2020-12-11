@@ -1,0 +1,52 @@
+{
+   "name": "mys3",
+   "version": "0.0.1",
+   "description": "Awesome project developed with TypeORM.",
+   "scripts": {
+      "dev": "yarn nodemon",
+      "clean": "yarn rimraf .dist",
+      "build": "yarn clean && yarn babel src/ --out-dir .dist/ --extensions \".ts\" --copy-files"
+   },
+   "devDependencies": {
+      "@babel/cli": "^7.12.1",
+      "@babel/core": "^7.12.3",
+      "@babel/node": "^7.12.6",
+      "@babel/plugin-proposal-class-properties": "^7.12.1",
+      "@babel/plugin-proposal-decorators": "^7.12.1",
+      "@babel/preset-env": "^7.12.1",
+      "@babel/preset-typescript": "^7.12.1",
+      "@types/node": "^8.0.29",
+      "@types/uuid": "^8.3.0",
+      "nodemon": "^2.0.6",
+      "rimraf": "^3.0.2",
+      "ts-node": "3.3.0",
+      "typescript": "3.3.3333"
+   },
+   "dependencies": {
+      "@types/cors": "^2.8.8",
+      "@types/express": "^4.17.9",
+      "@types/express-fileupload": "^1.1.5",
+      "@types/jsonwebtoken": "^8.5.0",
+      "@types/morgan": "^1.9.2",
+      "@types/multer": "^1.4.5",
+      "@types/multer-s3": "^2.7.8",
+      "@types/passport": "^1.0.4",
+      "@types/passport-jwt": "^3.0.3",
+      "@types/passport-local": "^1.0.33",
+      "aws-sdk": "^2.804.0",
+      "cors": "^2.8.5",
+      "express": "^4.17.1",
+      "express-fileupload": "^1.2.0",
+      "jsonwebtoken": "^8.5.1",
+      "morgan": "^1.10.0",
+      "multer": "^1.4.2",
+      "multer-s3": "^2.9.0",
+      "mysql": "^2.14.1",
+      "passport": "^0.4.1",
+      "passport-jwt": "^4.0.0",
+      "passport-local": "^1.0.0",
+      "reflect-metadata": "^0.1.10",
+      "typeorm": "0.2.29",
+      "uuid": "^8.3.1"
+   }
+}
