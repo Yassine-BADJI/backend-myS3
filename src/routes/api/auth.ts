@@ -1,10 +1,10 @@
-import {Request, Response, Router} from 'express'
+import { Request, Response, Router } from 'express'
 import passport from 'passport'
 import jwt from 'jsonwebtoken'
 import passwordHash from "password-hash";
-import {v4 as uuidv4} from "uuid";
-import {User} from "../../entity/User";
-import {getRepository} from "typeorm";
+import { v4 as uuidv4 } from "uuid";
+import { User } from "../../entity/User";
+import { getRepository } from "typeorm";
 
 const router = Router();
 
@@ -30,11 +30,10 @@ router.post('/sign-up', async (req: Request, res: Response) => {
   user.nickname = req.body.nickname;
   user.email = req.body.email;
   user.password = hashedPassword;
-  console.log(user)
-  // await req.dbConnection.manager.create(user);
-  // const userRepository = getRepository(User);
-  // await userRepository.find();
-  res.status(200).send({ message: "Create"});
+  const userRepository = getRepository(User);
+  const users = await userRepository.find();
+  await userRepository.save(user);
+  res.status(200).send({ message: "Create", users, userCreated: user });
 });
 
 export default router
