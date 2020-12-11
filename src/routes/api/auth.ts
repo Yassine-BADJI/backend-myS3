@@ -1,8 +1,12 @@
-import { Router } from 'express'
+import {Request, Response, Router} from 'express'
 import passport from 'passport'
 import jwt from 'jsonwebtoken'
+import passwordHash from "password-hash";
+import {v4 as uuidv4} from "uuid";
+import {User} from "../../entity/User";
+import {getRepository} from "typeorm";
 
-const router = Router()
+const router = Router();
 
 router.post('/login', (request, response, next) => {
   passport.authenticate('local', (error, user) => {
@@ -12,10 +16,25 @@ router.post('/login', (request, response, next) => {
         .json({ error })
     }
 
-    const token = jwt.sign(user, 'secret')
+    const token = jwt.sign(user, 'secret');
 
     response.json({ token })
   })(request, response, next)
-})
+});
+
+// :: POST /api/users > Inscription user
+router.post('/sign-up', async (req: Request, res: Response) => {
+  const hashedPassword = passwordHash.generate(req.body.password);
+  const user = new User();
+  user.uuid = uuidv4();
+  user.nickname = req.body.nickname;
+  user.email = req.body.email;
+  user.password = hashedPassword;
+  console.log(user)
+  // await req.dbConnection.manager.create(user);
+  // const userRepository = getRepository(User);
+  // await userRepository.find();
+  res.status(200).send({ message: "Create"});
+});
 
 export default router
