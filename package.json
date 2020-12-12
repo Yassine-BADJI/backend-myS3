@@ -3,7 +3,7 @@
    "version": "0.0.1",
    "description": "Awesome project developed with TypeORM.",
    "scripts": {
-      "dev": "yarn nodemon",
+      "run": "yarn nodemon",
       "clean": "yarn rimraf .dist",
       "build": "yarn clean && yarn babel src/ --out-dir .dist/ --extensions \".ts\" --copy-files"
    },
@@ -33,6 +33,7 @@
       "@types/passport": "^1.0.4",
       "@types/passport-jwt": "^3.0.3",
       "@types/passport-local": "^1.0.33",
+      "@types/password-hash": "^1.2.20",
       "aws-sdk": "^2.804.0",
       "cors": "^2.8.5",
       "express": "^4.17.1",
@@ -45,6 +46,7 @@
       "passport": "^0.4.1",
       "passport-jwt": "^4.0.0",
       "passport-local": "^1.0.0",
+      "password-hash": "^1.2.2",
       "reflect-metadata": "^0.1.10",
       "typeorm": "0.2.29",
       "uuid": "^8.3.1"
