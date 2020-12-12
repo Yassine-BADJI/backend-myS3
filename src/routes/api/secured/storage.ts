@@ -1,14 +1,28 @@
 import { Router, Request, Response } from 'express'
-import aws from 'aws-sdk';
+import AWS from 'aws-sdk';
+import multer from 'multer';
+import multerS3 from 'multer-s3';
 
 const router = Router()
-aws.config.update({
-    accessKeyId: process.env.aws_access_key_id,
-    secretAccessKey: process.env.aws_secret_access_key,
-    region: process.env.aws_s3_region
+AWS.config.update({
+    accessKeyId: 'AKIAIP7CVXNHYUH5POBQ',
+    secretAccessKey: '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',
+    region: 'eu-west-3'
 })
-const s3 = new aws.S3();
-router.get('/buckets', (req, res) => {
+const s3 = new AWS.S3();
+const upload = multer({
+    storage: multerS3({
+        s3: s3,
+        bucket: 'sanvoisinstest',
+        key: function (req, file, cb) {
+            console.log(file);
+            cb(null, 'test/test.pdf');
+        }
+    })
+});
+
+router.get('/', (req, res) => {
+    console.log(process.env.aws_access_key_id)
     s3.listBuckets((err, data) => {
         if (err) {
             res.status(500).send({ message: "Failed", error: err });
@@ -52,6 +66,10 @@ router.post('/bucket_folder', (req: Request, res: Response) => {
             res.status(200).send({ message: "Success", data: data });
         }
     });
+});
+router.post('/upload', upload.single('file'), function (req, res, next) {
+    console.log(req.files);
+    res.send("Uploaded!");
 });
 
 export default router

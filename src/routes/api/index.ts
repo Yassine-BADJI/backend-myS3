@@ -5,6 +5,7 @@ import checkJwt from '../../middlewares/checkJwt'
 import auth from './auth';
 import user from './secured/users';
 import storage from './secured/storage';
+import render from './render';
 
 const router = Router()
 
