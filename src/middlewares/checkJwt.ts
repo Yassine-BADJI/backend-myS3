@@ -1,16 +1,15 @@
 import passport from 'passport'
+import {NextFunction, Request, Response} from 'express'
 
 function checkJwt() {
-  return (request: any, response: any, next: any) => {
+  return (req: Request, res: Response, next: NextFunction) => {
     passport.authenticate('jwt', (error, user) => {
+      console.log(user)
       if (error || !user) {
-        return response
-          .status(401)
-          .json({ error })
+        return res.status(401).send("No token given")
       }
-
       next()
-    })(request, response, next)
+    })(req, res, next)
   }
 }
 

@@ -10,7 +10,7 @@ import render from './render';
 const router = Router()
 
 router.use('/auth', auth)
-router.use('/users', user)
+router.use('/users', checkJwt(), user)
 router.use('/storage', checkJwt(), storage)
 
 export default router
