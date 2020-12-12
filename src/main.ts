@@ -16,26 +16,12 @@ app.use(morgan("tiny"));
 app.use(passport.initialize());
 
 createConnection().then(async connection => {
+    app.use((request, res, next)=> {
+        request.dbConnection= connection
+    next()
+    })
+
     app.use('/api', api)
-
-    // console.log("Inserting a new user into the database...");
-    // const user = new User();
-    // user.uuid = uuidv4();
-    // user.nickname = "Sanvoisins";
-    // user.email = "sanvoisins@outlook.fr";
-    // user.password = "test";
-    // await connection.manager.save(user);
-    // console.log("Saved a new user with id: " + user.uuid);
-
-    // console.log("Loading users from the database...");
-    // const users = await connection.manager.find(User);
-    // console.log("Loaded users: ", users);
-
-    // app.get("/", (req: Request, res: Response) => {
-    //     res.send("my S3")
-    // })
-    app.listen(process.env.api_port);
-
-    console.log("Server listening on port " + process.env.api_port + "!");
-
+    console.log("Server listening on port 3000 !");
+    app.listen(3000);
 }).catch(error => console.log(error));

@@ -1057,6 +1057,11 @@
   dependencies:
     "@types/express" "*"
 
+"@types/password-hash@^1.2.20":
+  version "1.2.20"
+  resolved "https://registry.yarnpkg.com/@types/password-hash/-/password-hash-1.2.20.tgz#29149b2a315975254c9c4692eea5cd2ac0992ddf"
+  integrity sha512-JyJQu6VWgrLTxrXArOJQ1wBocTRRPjZ2RASPeDhSIVba2e7CZDrOxaipd1k0LwNmcgtwzihEMnhgoxoZe624SQ==
+
 "@types/qs@*":
   version "6.9.5"
   resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.9.5.tgz#434711bdd49eb5ee69d90c1d67c354a9a8ecb18b"
@@ -3332,6 +3337,11 @@ passport@^0.4.1:
   dependencies:
     passport-strategy "1.x.x"
     pause "0.0.1"
+
+password-hash@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/password-hash/-/password-hash-1.2.2.tgz#3b451f014de4b2e1ebfa0e5493b9517b1063af1d"
+  integrity sha1-O0UfAU3ksuHr+g5Uk7lRexBjrx0=
 
 path-dirname@^1.0.0:
   version "1.0.2"
