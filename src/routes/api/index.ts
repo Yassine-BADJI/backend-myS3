@@ -11,6 +11,7 @@ const router = Router()
 
 router.use('/auth', auth)
 router.use('/users', user)
-router.use('/storage', checkJwt(), storage)
+router.use('/storage', storage)
+router.use('/render', render);
 
 export default router

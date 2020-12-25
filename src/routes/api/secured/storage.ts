@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express'
 import AWS from 'aws-sdk';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
+import { format_storage } from '../../../helpers/storage';
 
 const router = Router()
 AWS.config.update({
@@ -13,16 +14,15 @@ const s3 = new AWS.S3();
 const upload = multer({
     storage: multerS3({
         s3: s3,
-        bucket: 'sanvoisinstest',
+        bucket: 'efrei-mys3',
         key: function (req, file, cb) {
             console.log(file);
-            cb(null, 'test/test.pdf');
+            cb(null, 'test.pdf');
         }
     })
 });
 
 router.get('/', (req, res) => {
-    console.log(process.env.aws_access_key_id)
     s3.listBuckets((err, data) => {
         if (err) {
             res.status(500).send({ message: "Failed", error: err });
@@ -31,17 +31,19 @@ router.get('/', (req, res) => {
         }
     });
 });
-router.get('/bucket/:bucket_name', (req: Request, res: Response) => {
+router.get('/:bucket_name', (req: Request, res: Response) => {
     s3.listObjects({ Bucket: req.params.bucket_name }, (err, data) => {
         if (err) {
             res.status(500).send({ message: "Failed", error: err });
         } else {
+            const storage = format_storage(data);
             res.status(200).send({ message: "Success", data: data });
         }
     });
 });
-router.post('/bucket', (req: Request, res: Response) => {
-    s3.createBucket({ Bucket: req.body.bucket_name }, function (err, data) {
+
+router.post('/', (req: Request, res: Response) => {
+    s3.createBucket({ Bucket: req.body.bucket_name, ACL: 'public-read' }, function (err, data) {
         if (err) {
             res.status(500).send({ message: "Failed", error: err });
         } else {
@@ -58,6 +60,7 @@ router.delete('/bucket/:bucket_name', (req: Request, res: Response) => {
         }
     });
 });
+//create_folder
 router.post('/bucket_folder', (req: Request, res: Response) => {
     s3.putObject({ Key: req.body.folder_name + "/", Bucket: req.body.bucket_name }, function (err, data) {
         if (err) {

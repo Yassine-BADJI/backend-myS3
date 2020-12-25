@@ -16,12 +16,12 @@ app.use(morgan("tiny"));
 app.use(passport.initialize());
 
 createConnection().then(async connection => {
-    app.use((request, res, next)=> {
-        request.dbConnection= connection
-    next()
+    app.use((request, res, next) => {
+        request.dbConnection = connection
+        next()
     })
 
     app.use('/api', api)
-    console.log("Server listening on port 3000 !");
-    app.listen(3000);
+    console.log("Server listening on port " + process.env.api_port + " !");
+    app.listen(process.env.api_port);
 }).catch(error => console.log(error));
