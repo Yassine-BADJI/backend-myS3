@@ -8,17 +8,15 @@ import { getRepository } from "typeorm";
 
 const router = Router();
 
-router.post('/login', (request, response, next) => {
+router.post('/login', (req: Request, res: Response, next) => {
   passport.authenticate('local', (error, user) => {
     if (error || !user) {
-      return response
-        .status(404)
-        .json({ error })
+      return res.status(404).send({error});
     }
-    const token = jwt.sign(user, 'secret');
-
-    response.json({ token })
-  })(request, response, next)
+    const token = jwt.sign({user}, 'secret');
+    res.setHeader("token", token);
+    return res.status(200).send();
+  })(req, res, next)
 });
 
 // :: POST /api/users > Inscription user

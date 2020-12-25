@@ -1,9 +1,9 @@
 {
    "type": "mysql",
    "host": "localhost",
-   "port": 8889,
+   "port": 3306,
    "username": "root",
-   "password": "root",
+   "password": "",
    "database": "mys3",
    "synchronize": true,
    "logging": false,
