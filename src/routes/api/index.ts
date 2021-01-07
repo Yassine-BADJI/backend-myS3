@@ -11,9 +11,9 @@ import render from './render';
 const router = Router()
 
 router.use('/auth', auth)
-router.use('/users', user)
-router.use('/buckets', buckets)
-router.use('/blobs', blobs)
+router.use('/users', checkJwt(), user)
+router.use('/buckets', checkJwt(), buckets)
+router.use('/blobs', checkJwt(), blobs)
 router.use('/render', render);
 
 export default router
