@@ -22,6 +22,6 @@ createConnection().then(async connection => {
     })
 
     app.use('/api', api)
-    console.log("Server listening on port " + process.env.api_port + " !");
-    app.listen(process.env.api_port);
+    console.log("Server listening on port " + process.env.PORT + " !");
+    app.listen(process.env.PORT);
 }).catch(error => console.log(error));
