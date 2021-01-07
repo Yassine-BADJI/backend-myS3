@@ -15,7 +15,7 @@ router.post('/login', (req: Request, res: Response, next) => {
     }
     const token = jwt.sign({ user }, 'secret');
     res.setHeader("token", token);
-    return res.status(200).send({ token });
+    return res.status(200).send({ token, uuid: user.uuid, success: true });
   })(req, res, next)
 });
 
@@ -28,7 +28,7 @@ router.post('/sign-up', async (req: Request, res: Response) => {
   new_user.email = req.body.email;
   new_user.password = hashedPassword;
   await getRepository(User).save(new_user);
-  return res.status(200).send({ message: "Hello " + new_user.nickname });
+  return res.status(200).send({ message: "Hello " + new_user.nickname, success: true });
 });
 
 export default router

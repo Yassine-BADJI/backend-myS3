@@ -25,9 +25,9 @@ router.get('/user/:uuid_user', async (req, res) => {
 router.post('/', (req: Request, res: Response) => {
     s3.putObject({ Key: req.body.user_uuid + "/" + req.body.bucket_name + "/", Bucket: process.env.aws_s3_bucket }, async function (err, data) {
         if (err) {
-            res.status(500).send({ message: "Failed", error: err });
+            res.status(500).send({ success: false, error: err });
         } else {
-            res.status(200).send({ message: "Success", data: data });
+            res.status(200).send({ success: true, data: data });
             const new_bucket = new Bucket();
             new_bucket.uuid = uuidv4();
             new_bucket.name = req.body.bucket_name
@@ -55,9 +55,9 @@ router.delete('/:uuid_bucket', async (req: Request, res: Response) => {
     console.log(params)
     s3.deleteObject(params, (err, data) => {
         if (err) {
-            res.status(401).send({ message: "Object not deleted", err })
+            res.status(401).send({ success: false, err })
         } else {
-            res.status(200).send({ message: "Object deleted", data })
+            res.status(200).send({ success: true, data })
             const status = getRepository(Bucket).delete({ uuid: req.params.uuid_bucket })
         }
     });
@@ -78,9 +78,9 @@ router.put('/:bucket_uuid', async (req: Request, res: Response) => {
         } else {
             s3.deleteObject(params, (err, data) => {
                 if (err) {
-                    res.status(401).send({ message: "Object not deleted", err })
+                    res.status(401).send({ success: false, err })
                 } else {
-                    res.status(200).send({ message: "Object updated", data })
+                    res.status(200).send({ success: true, data })
                     const status = getRepository(Bucket).save({ uuid: req.params.bucket_uuid, name: req.body.new_name })
                 }
             });

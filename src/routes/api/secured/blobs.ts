@@ -59,9 +59,9 @@ router.delete('/:blob_uuid', async (req: Request, res: Response) => {
   }
   s3.deleteObject(params, (err, data) => {
     if (err) {
-      res.status(401).send({ message: "Object not deleted", err })
+      res.status(401).send({ success: false, err })
     } else {
-      res.status(200).send({ message: "Object deleted", data })
+      res.status(200).send({ success: true, data })
       const status = getRepository(Blob).delete({ uuid: req.params.blob_uuid })
     }
   });
@@ -79,13 +79,13 @@ router.put('/:blob_uuid', async (req: Request, res: Response) => {
   }
   s3.copyObject(params, (err, data) => {
     if (err) {
-      res.status(401).send({ message: "Object not deleted", err })
+      res.status(401).send({ success: false, err })
     } else {
       s3.deleteObject(params, (err, data) => {
         if (err) {
-          res.status(401).send({ message: "Object not deleted", err })
+          res.status(401).send({ success: false, err })
         } else {
-          res.status(200).send({ message: "Object updated", data })
+          res.status(200).send({ success: true, data })
           const status = getRepository(Blob).save({ uuid: req.params.blob_uuid, name: req.body.new_name })
         }
       });
