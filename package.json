@@ -4,6 +4,7 @@
    "description": "Awesome project developed with TypeORM.",
    "scripts": {
       "dev": "yarn nodemon",
+      "start": "babel-node --extensions \".ts\" src/main",
       "clean": "yarn rimraf .dist",
       "build": "yarn clean && yarn babel src/ --out-dir .dist/ --extensions \".ts\" --copy-files"
    },
