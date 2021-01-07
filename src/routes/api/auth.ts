@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken'
 import AWS from 'aws-sdk';
 import passwordHash from "password-hash";
 import { Bucket } from "../../entity/Bucket";
+import { Blob } from "../../entity/Blob";
 import { v4 as uuidv4 } from "uuid";
 import { User } from "../../entity/User";
 import { getRepository } from "typeorm";
@@ -28,6 +29,7 @@ router.post('/login', (req: Request, res: Response, next) => {
 
 // :: POST /api/users > Inscription user
 router.post('/sign-up', async (req: Request, res: Response) => {
+  const aws_base_url = "https://efrei-mys3.s3.eu-west-3.amazonaws.com/"
   const hashedPassword = passwordHash.generate(req.body.password);
   const new_user = new User();
   new_user.uuid = uuidv4();
@@ -45,6 +47,12 @@ router.post('/sign-up', async (req: Request, res: Response) => {
       new_bucket.name = new_user.uuid
       new_bucket.uuid_user = new_user.uuid
       await new_bucket.save();
+      const new_blob = new Blob();
+      new_blob.uuid = uuidv4();
+      new_blob.name = "Premier Fichier"
+      new_blob.url = aws_base_url + "Premier Fichier"
+      new_blob.bucket = new_bucket
+      await new_blob.save();
     }
   });
 });
