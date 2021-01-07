@@ -3,7 +3,7 @@
    "version": "0.0.1",
    "description": "Awesome project developed with TypeORM.",
    "scripts": {
-      "run": "yarn nodemon",
+      "dev": "yarn nodemon",
       "clean": "yarn rimraf .dist",
       "build": "yarn clean && yarn babel src/ --out-dir .dist/ --extensions \".ts\" --copy-files"
    },
