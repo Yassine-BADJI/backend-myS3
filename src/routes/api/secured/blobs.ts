@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express'
+import { Router, Request, Response, json } from 'express'
 import AWS from 'aws-sdk';
 import multer from 'multer';
 import multerS3 from 'multer-s3';
@@ -72,6 +72,7 @@ router.put('/:blob_uuid', async (req: Request, res: Response) => {
     .leftJoinAndSelect("blob.bucket", "bucket")
     .where("blob.uuid = :blob_uuid", { blob_uuid: req.params.blob_uuid })
     .getOne();
+  console.log(req.body.new_name)
   const params = {
     Bucket: blob.bucket.uuid_user,
     CopySource: blob.bucket.name + "/" + blob.name,
@@ -79,12 +80,13 @@ router.put('/:blob_uuid', async (req: Request, res: Response) => {
   }
   s3.copyObject(params, (err, data) => {
     if (err) {
-      res.status(401).send({ success: false, err })
+      res.status(403).send({ success: false, err })
     } else {
       s3.deleteObject(params, (err, data) => {
         if (err) {
           res.status(401).send({ success: false, err })
         } else {
+          res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
           res.status(200).send({ success: true, data })
           const status = getRepository(Blob).save({ uuid: req.params.blob_uuid, name: req.body.new_name })
         }

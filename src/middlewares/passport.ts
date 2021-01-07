@@ -28,8 +28,8 @@ passport.use(
         secretOrKey: 'secret',
     },
         function (jwt_payload, done) {
-            console.log(jwt_payload);
-            getRepository(User).findOne({ email: jwt_payload.email }).then((user) => {
+            console.log(jwt_payload)
+            getRepository(User).findOne({ email: jwt_payload.user.email }).then((user) => {
                 if (user) {
                     return done(null, user);
                 }
