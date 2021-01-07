@@ -3,6 +3,7 @@ import passport from 'passport'
 import jwt from 'jsonwebtoken'
 import AWS from 'aws-sdk';
 import passwordHash from "password-hash";
+import { Bucket } from "../../entity/Bucket";
 import { v4 as uuidv4 } from "uuid";
 import { User } from "../../entity/User";
 import { getRepository } from "typeorm";
@@ -34,11 +35,16 @@ router.post('/sign-up', async (req: Request, res: Response) => {
   new_user.email = req.body.email;
   new_user.password = hashedPassword;
   await getRepository(User).save(new_user);
-  s3.createBucket({ Bucket: new_user.uuid }, function (err, data) {
+  s3.putObject({ Key: req.body.user_uuid + "/", Bucket: process.env.aws_s3_bucket }, async function (err, data) {
     if (err) {
-      return res.status(403).send({ success: false, error: err });
+      res.status(500).send({ success: false, error: err });
     } else {
-      return res.status(200).send({ message: "Hello " + new_user.nickname, success: true });
+      res.status(200).send({ success: true, data: data });
+      const new_bucket = new Bucket();
+      new_bucket.uuid = uuidv4();
+      new_bucket.name = req.body.bucket_name
+      new_bucket.uuid_user = req.body.user_uuid
+      await new_bucket.save();
     }
   });
 });
