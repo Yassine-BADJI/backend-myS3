@@ -34,15 +34,13 @@ router.post('/sign-up', async (req: Request, res: Response) => {
   new_user.email = req.body.email;
   new_user.password = hashedPassword;
   await getRepository(User).save(new_user);
-  // s3.createBucket({ Bucket: new_user.uuid }, function (err, data) {
-  //   if (err) {
-
-  //     return res.status(200).send({ success: false, error: err });
-  //   } else {
-  //     return res.status(200).send({ message: "Hello " + new_user.nickname, success: true });
-  //   }
-  // });
-  return res.status(200).send({ message: "Hello " + new_user.nickname, success: true });
+  s3.createBucket({ Bucket: new_user.uuid }, function (err, data) {
+    if (err) {
+      return res.status(403).send({ success: false, error: err });
+    } else {
+      return res.status(200).send({ message: "Hello " + new_user.nickname, success: true });
+    }
+  });
 });
 
 export default router
