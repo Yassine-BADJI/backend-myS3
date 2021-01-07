@@ -35,7 +35,7 @@ router.post('/sign-up', async (req: Request, res: Response) => {
   new_user.email = req.body.email;
   new_user.password = hashedPassword;
   await getRepository(User).save(new_user);
-  s3.putObject({ Key: req.body.user_uuid + "/", Bucket: process.env.aws_s3_bucket }, async function (err, data) {
+  s3.putObject({ Key: new_user.uuid + "/", Bucket: process.env.aws_s3_bucket }, async function (err, data) {
     if (err) {
       res.status(500).send({ success: false, error: err });
     } else {
