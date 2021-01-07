@@ -42,8 +42,8 @@ router.post('/sign-up', async (req: Request, res: Response) => {
       res.status(200).send({ success: true, data: data });
       const new_bucket = new Bucket();
       new_bucket.uuid = uuidv4();
-      new_bucket.name = req.body.bucket_name
-      new_bucket.uuid_user = req.body.user_uuid
+      new_bucket.name = new_user.uuid
+      new_bucket.uuid_user = new_user.uuid
       await new_bucket.save();
     }
   });
